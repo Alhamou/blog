@@ -158,11 +158,12 @@ Route::get('/deleteMany', function(){
     
     # this way
     Post::destroy([9,10,11]);
-    
+
     # or this way
     Post::where('is_admin', 0)->delete();
 
     return 'Deleted many!';
 
+    
 });
 

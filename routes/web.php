@@ -114,3 +114,31 @@ Route::get('/basicupdate', function(){
     return 'Updated!';
 
 });
+
+
+
+/*
+|--------------------------------------------------------------------------
+| Inserting & Updating Related Models.
+|--------------------------------------------------------------------------
+*/
+
+
+Route::get('/create', function(){
+
+    $post = Post::create(['title'=> 'Hi im new create fanctionalaty', 'body' => 'dolor sit amet consectetur adipisicing elit. Fuga, quis architecto']);
+
+    return 'Create!';
+
+});
+
+
+Route::get('/update', function(){
+
+    $post = Post::where('id',1)->where('is_admin', 0)->update(['title'=> 'Hi im new Update fanctionalaty']);
+
+    return 'Updated!';
+
+});
+
+

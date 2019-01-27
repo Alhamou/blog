@@ -1,5 +1,6 @@
 <?php
 use App\User;
+use App\Post;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -84,5 +85,32 @@ Route::get('/findmore', function(){
     $userFail = User::where('password', 'emad')->firstOrFail();
 
     return $userFail;
+
+});
+
+
+Route::get('/basicinsert', function(){
+
+    $post = new Post;
+
+    $post->title = "Hi im Emad";
+    $post->body = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga, quis architecto mollitia possimus placeat, aut quaerat temporibus, voluptatibus nostrum omnis sit incidunt saepe rem quibusdam earum suscipit harum quidem! Velit!";
+    
+    $post->save();
+
+    return 'Saved!';
+
+});
+
+Route::get('/basicupdate', function(){
+
+    $post = Post::find(1);
+
+    $post->title = "Hi im Emad Update";
+    $post->body = "2Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga, quis architecto mollitia possimus placeat, aut quaerat temporibus, voluptatibus nostrum omnis sit incidunt saepe rem quibusdam earum suscipit harum quidem! Velit!";
+    
+    $post->save();
+
+    return 'Updated!';
 
 });

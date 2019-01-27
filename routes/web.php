@@ -142,3 +142,26 @@ Route::get('/update', function(){
 });
 
 
+Route::get('/delete', function(){
+
+    $post = Post::find(1);
+
+    $post->delete();
+
+    return 'Deleted!';
+
+});
+
+
+# Delete Many
+Route::get('/deleteMany', function(){
+    
+    # this way
+    Post::destroy([1,2,3,4]);
+    # or this way
+    $post->where('is_admin', 0)->delete();
+
+    return 'Deleted many!';
+
+});
+

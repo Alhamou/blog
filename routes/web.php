@@ -167,3 +167,44 @@ Route::get('/deleteMany', function(){
     
 });
 
+
+# Soft Deleted.
+Route::get('/softdelete', function(){
+    
+    Post::find(12)->delete();
+
+    return 'Soft Deleted!';
+    
+});
+
+
+Route::get('/readsoftdelete', function(){
+    
+    # with this Query can't show the Post was deleted.
+      //$post = Post::find(12);
+    
+    # Hear can read Post of deleted.
+    $post = Post::withTrashed()->where('id',12)->get();
+    # or whit onlyTrashed.
+    # $post = Post::onlyTrashed()->where('is_admin',0)->get();
+
+    return $post ;
+    
+});
+
+
+Route::get('/restore', function(){
+
+    Post::withTrashed()->where('is_admin',0)->restore();
+
+    return 'Restored!' ;
+    
+});
+
+# to Delete Column with Trashed use forceDelete.
+Route::get('/forceDelete', function(){
+
+    Post::onlyTrashed()->where('is_admin',0)->forceDelete();
+    return 'force Deleted!' ;
+    
+});

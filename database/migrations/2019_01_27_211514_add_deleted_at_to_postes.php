@@ -14,9 +14,7 @@ class AddDeletedAtToPostes extends Migration
     public function up()
     {
         Schema::table('posts', function (Blueprint $table) {
-
             $table->softDeletes();
-            
         });
     }
 
@@ -28,7 +26,7 @@ class AddDeletedAtToPostes extends Migration
     public function down()
     {
         Schema::table('posts', function (Blueprint $table) {
-            Schema::dropColumn('deleted_at');
+            Schema::dropIfExists('deleted_at');
         });
     }
 }

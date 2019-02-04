@@ -2,6 +2,7 @@
 use App\User;
 use App\Post;
 use App\Role;
+use App\Country;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -71,6 +72,15 @@ Route::get('/find', function(){
     return $user;
 
 });
+
+Route::get('/findpost', function(){
+
+    $post = Post::all();
+
+    return $post;
+
+});
+
 
 Route::get('/findwhere', function(){
 
@@ -265,4 +275,32 @@ Route::get('user/{id}/role', function ($id) {
         
 
     
+});
+
+
+///////////////////////// Media Accessing 
+
+Route::get('/country', function(){
+
+
+    $country = DB::table('countries')
+            ->join('users', 'users.country_id', '=' , 'countries.id')
+            ->join('posts', 'posts.user_id', '=', 'users.id')
+            ->get(array(
+                'title',
+                'body',
+                'countries.name as country',
+                'users.name'
+    ));
+
+                return $country;
+    // $country = Country::find(3)->posts;
+    // return $country;
+    // foreach ($country as $name){
+    //     echo $name->title . '<br>';
+    // }
+    
+    
+   
+
 });

@@ -1,6 +1,7 @@
 <?php
 use App\User;
 use App\Post;
+use App\Role;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -168,7 +169,14 @@ Route::get('/deleteMany', function(){
 });
 
 
-# Soft Deleted.
+
+/*
+|--------------------------------------------------------------------------
+| Soft Deleted.
+|--------------------------------------------------------------------------
+*/
+
+
 Route::get('/softdelete', function(){
     
     Post::find(12)->delete();
@@ -185,8 +193,10 @@ Route::get('/readsoftdelete', function(){
     
     # Hear can read Post of deleted.
     $post = Post::withTrashed()->where('id',12)->get();
+
+
     # or whit onlyTrashed.
-    # $post = Post::onlyTrashed()->where('is_admin',0)->get();
+    $post = Post::onlyTrashed()->where('is_admin',0)->get();
 
     return $post ;
     
@@ -206,5 +216,53 @@ Route::get('/forceDelete', function(){
 
     Post::onlyTrashed()->where('is_admin',0)->forceDelete();
     return 'force Deleted!' ;
+    
+});
+
+
+/*
+|--------------------------------------------------------------------------
+| Eloquent with Relationships Tables.
+|--------------------------------------------------------------------------
+*/
+
+# One to One relationship.
+//////////////////////////
+Route::get('post/{id}/user', function ($id) {
+
+    return User::find($id)->getPost; // can chain also like : getPost->body
+});
+
+# Revers the Query
+Route::get('user/{id}/post', function ($id) {
+
+    return Post::find($id)->getUser; // can chain also like : getUser->name
+});
+
+
+# One to Many relationship.
+//////////////////////////
+Route::get('posts/{id}/user', function ($id) {
+
+    return User::find($id)->getPosts;
+});
+
+Route::get('user/{id}/role', function ($id) {
+
+    # $user = User::find($id);
+    # $roles = User::find($id)->roles;
+    
+    $roles = DB::table('users')
+                ->join('role_user', 'role_user.user_id', '=', 'users.id')
+                ->join('roles', 'role_user.role_id', '=', 'roles.id')
+                #->where('users.id', '=', 3)
+                ->get(array(
+                    'role', 'name'
+                ));
+
+    return $roles;
+        
+        
+
     
 });

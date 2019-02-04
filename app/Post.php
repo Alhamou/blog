@@ -15,4 +15,10 @@ class Post extends Model
     # this "$dates" is allrady set in Laravel .
     protected $dates = ['deleted_at'];
 
+
+
+    public function getUser () {
+        return $this->belongsTo('App\User','user_id');
+    }
+
 }

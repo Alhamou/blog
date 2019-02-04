@@ -27,4 +27,24 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function getPost(){
+
+ 
+        return $this->hasOne('App\Post'); # Py Default is ('App\Post', 'user_id'); 
+
+    }
+
+    public function getPosts(){
+
+        return $this->hasMany('App\Post'); # Py Default is ('App\Post', 'user_id'); 
+
+    }
+
+    public function roles (){
+
+        return $this->belongsToMany('App\Role');
+    }
+
+
 }

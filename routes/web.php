@@ -283,17 +283,21 @@ Route::get('user/{id}/role', function ($id) {
 Route::get('/country', function(){
 
 
-    $country = DB::table('countries')
-            ->join('users', 'users.country_id', '=' , 'countries.id')
+    $country = User::where('users.id',3)
+            ->join('countries', 'users.country_id', '=' , 'countries.id')
             ->join('posts', 'posts.user_id', '=', 'users.id')
+            ->join('role_user', 'role_user.user_id', '=', 'users.id')
+            ->join('roles', 'role_user.role_id', '=', 'roles.id')
             ->get(array(
                 'title',
                 'body',
                 'countries.name as country',
-                'users.name'
-    ));
+                'users.name',
+                'users.email',
+                'roles.role'
+            ));
 
-                return $country;
+    return $country;
     // $country = Country::find(3)->posts;
     // return $country;
     // foreach ($country as $name){
